@@ -1,11 +1,18 @@
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+
 add_library(core STATIC
-  "led/led_indicator_wrapper.cc"
+  "init.cc"
   "util/delay.cc"
   "util/board_info.cc"
+  "led/led_indicator_wrapper.cc"
+  "manager/wifi_manager.cc"
   )
 
 target_link_libraries(core PRIVATE
-  idf::indicator
+  idf::nvs_flash
   idf::spi_flash
+  idf::esp_wifi
+
+  idf::indicator
   )
