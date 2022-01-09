@@ -13,13 +13,6 @@
 
 static const char* TAG = "wifi manager";
 
-/* The event group allows multiple bits for each event, but we only care about
- * two events:
- * - we are connected to the AP with an IP
- * - we failed to connect after the maximum amount of retries */
-#define WIFI_CONNECTED_BIT BIT0
-#define WIFI_FAIL_BIT BIT1
-
 namespace esp {
 static EventGroupHandle_t s_wifi_event_group;
 
@@ -40,16 +33,14 @@ static void sta_event_handler(void* arg, esp_event_base_t event_base,
       s_retry_num++;
       ESP_LOGI(TAG, "retry to connect to the AP");
     } else {
-      xEventGroupSetBits(s_wifi_event_group, WIFI_FAIL_BIT);
+      manager->OnStaConnectFailed();
     }
-    manager->OnStaConnectFailed();
-    ESP_LOGI(TAG, "connect to the AP fail");
+    ESP_LOGI(TAG, "connect to the AP failed");
   } else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP) {
     ip_event_got_ip_t* event = (ip_event_got_ip_t*)event_data;
     ESP_LOGI(TAG, "got ip:" IPSTR, IP2STR(&event->ip_info.ip));
     s_retry_num = 0;
     manager->OnStaConnected();
-    xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
   }
 }
 
