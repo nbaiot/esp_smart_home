@@ -11,7 +11,7 @@ class MqttClient {
   using OnReadyCallback = std::function<void()>;
   using OnDisconnectCallback = std::function<void()>;
   using OnReceiveMsgCallback =
-      std::function<void(const char* topic, const char* data, int32_t len)>;
+      std::function<void(std::string topic, const char* data, int32_t len)>;
 
   MqttClient(const char* broker_url, const char* client_id, bool clean_session, bool auto_reconnect);
 
@@ -47,7 +47,7 @@ class MqttClient {
 
   void OnDisconnect();
 
-  void OnReceiveMsg(const char* topic, const char* data, int32_t len);
+  void OnReceiveMsg(const char* topic, int32_t topic_len, const char* data, int32_t len);
 
  private:
   std::string url_;

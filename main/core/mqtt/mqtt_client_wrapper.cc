@@ -44,7 +44,8 @@ static void mqtt_event_handler(void* handler_args, esp_event_base_t base,
       break;
     case MQTT_EVENT_DATA:
       ESP_LOGI(TAG, "MQTT_EVENT_DATA");
-      mqtt_client->OnReceiveMsg(event->topic, event->data, event->data_len);
+      mqtt_client->OnReceiveMsg(event->topic, event->topic_len, event->data,
+                                event->data_len);
       break;
     case MQTT_EVENT_ERROR:
       ESP_LOGI(TAG, "MQTT_EVENT_ERROR");
@@ -133,10 +134,10 @@ void MqttClient::OnDisconnect() {
   }
 }
 
-void MqttClient ::OnReceiveMsg(const char* topic, const char* data,
-                               int32_t len) {
+void MqttClient ::OnReceiveMsg(const char* topic, int32_t topic_len,
+                               const char* data, int32_t len) {
   if (receive_msg_callback_) {
-    receive_msg_callback_(topic, data, len);
+    receive_msg_callback_(std::string(topic, topic_len), data, len);
   }
 }
 
