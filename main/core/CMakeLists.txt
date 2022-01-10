@@ -11,6 +11,7 @@ add_library(core STATIC
   "util/http_download.cc"
   "led/led_indicator_wrapper.cc"
   "manager/wifi_manager.cc"
+  "mqtt/mqtt_client_wrapper.cc"
   )
 
 target_link_libraries(core PRIVATE
@@ -19,6 +20,7 @@ target_link_libraries(core PRIVATE
   idf::esp_wifi
   idf::esp_http_client
   idf::esp-tls
+  idf::mqtt
 
   idf::indicator
   )
