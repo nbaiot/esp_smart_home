@@ -32,9 +32,9 @@ extern "C" void app_main(void) {
       ESP_LOGI(TAG, "connect mqtt broker");
       client->Subscribe("topic/#", 0);
   });
-  mqtt_client->SetOnReceiveMsgCallback([](const char* topic, const char* data, int32_t len){
+  mqtt_client->SetOnReceiveMsgCallback([](std::string topic, const char* data, int32_t len){
       std::string msg(data, len);
-      ESP_LOGI(TAG, "receive msg: %s from topic:%s", msg.c_str(), topic);
+      ESP_LOGI(TAG, "receive msg: %s from topic:%s", msg.c_str(), topic.c_str());
   });
   mqtt_client->Start();
   for (;;) {
