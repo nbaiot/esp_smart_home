@@ -11,6 +11,7 @@ add_library(core STATIC
   "util/http_download.cc"
   "led/led_indicator_wrapper.cc"
   "manager/wifi_manager.cc"
+  "manager/sntp_manager.cc"
   "mqtt/mqtt_client_wrapper.cc"
   )
 

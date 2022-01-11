@@ -10,6 +10,7 @@
 #include "freertos/task.h"
 
 namespace esp {
+
 void PrintBoardInfoToLog() {
   printf("############### BOARD INFO ###############\n");
   esp_chip_info_t chip_info;
@@ -27,4 +28,11 @@ void PrintBoardInfoToLog() {
   printf("Minimum free heap size: %d bytes\n",
          esp_get_minimum_free_heap_size());
 }
+
+void PrintHeapMemInfoToLog() {
+  printf("############### HEAP MEM INFO ###############\n");
+  printf("free heap size: %d\n", esp_get_free_heap_size());
+  printf("min free heap size: %d\n", esp_get_minimum_free_heap_size());
+}
+
 }  // namespace esp

@@ -6,6 +6,7 @@
 #include "core/init.h"
 #include "core/led/led_indicator_wrapper.h"
 #include "core/manager/wifi_manager.h"
+#include "core/manager/sntp_manager.h"
 #include "core/mqtt/mqtt_client_wrapper.h"
 #include "core/util/board_info.h"
 #include "core/util/delay.h"
@@ -25,6 +26,10 @@ extern "C" void app_main(void) {
     if (WifiManager::Instance()->SwitchStationMode("TP-th", "tanhe123")) {
       WifiManager::Instance()->Start();
     }
+  }
+
+  if (!SntpManager::Instance()->SyncTime()) {
+    ESP_LOGE(TAG, "sntp time failed");
   }
 
   auto mqtt_client = std::make_shared<MqttClient>("mqtt://192.168.0.105:1883", "123", true, true);
